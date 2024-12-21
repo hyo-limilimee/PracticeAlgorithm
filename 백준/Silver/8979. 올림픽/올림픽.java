@@ -24,28 +24,28 @@ public class Main {
             nations.add(new Nation(num, gold, silver, bronze));
         }
 
-        nations.sort((a, b) -> {
-            if (a.gold != b.gold) return b.gold - a.gold;
-            if (a.silver != b.silver) return b.silver - a.silver;
-            return b.bronze - a.bronze;
-        });
+        Collections.sort(nations);
 
-        Nation target = nations.get(K - 1);
-
-        // 등수를 계산
+        // 등수 계산
         int rank = 1;
         for (int i = 0; i < nations.size(); i++) {
-            if (nations.get(i).equals(target)) {
+            if (i > 0 && nations.get(i).compareTo(nations.get(i - 1)) != 0) {
+                
                 rank = i + 1;
+            }
+            nations.get(i).rank = rank;
+        }
+
+        for (Nation nation : nations) {
+            if (nation.num == K) {
+                System.out.println(nation.rank);
                 break;
             }
         }
-
-        System.out.println(rank);
     }
 
-    static class Nation {
-        int num, gold, silver, bronze;
+    static class Nation implements Comparable<Nation> {
+        int num, gold, silver, bronze, rank;
 
         Nation(int num, int gold, int silver, int bronze) {
             this.num = num;
@@ -55,21 +55,14 @@ public class Main {
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
-            Nation nation = (Nation) obj;
-            return gold == nation.gold && silver == nation.silver && bronze == nation.bronze;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(gold, silver, bronze);
-        }
-
-        @Override
-        public String toString() {
-            return "Nation{num=" + num + ", gold=" + gold + ", silver=" + silver + ", bronze=" + bronze + "}";
+        public int compareTo(Nation o) {
+            if (this.gold == o.gold) {
+                if (this.silver == o.silver) {
+                    return Integer.compare(o.bronze, this.bronze);
+                }
+                return Integer.compare(o.silver, this.silver);
+            }
+            return Integer.compare(o.gold, this.gold);
         }
     }
 }
