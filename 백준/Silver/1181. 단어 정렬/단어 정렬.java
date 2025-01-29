@@ -1,40 +1,42 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         int N = Integer.parseInt(br.readLine());
 
         String[] arr = new String[N];
 
         for (int i = 0; i < N; i++) {
-            String str = br.readLine();
-            arr[i] = str;
+            arr[i] = br.readLine();
         }
 
+        // 길이가 짧은 순서
+        // 길이가 같으면 사전 순
         Arrays.sort(arr, new Comparator<String>() {
             @Override
-            public int compare(String s1, String s2) {
-                // 단어 길이가 같은 경우
-                if (s1.length() == s2.length()) {
-                    return s1.compareTo(s2);
+            public int compare(String o1, String o2) {
+                if (o1.length() == o2.length()) {
+                    return o1.compareTo(o2);
                 } else {
-                    return s1.length() - s2.length();
+                    return o1.length() - o2.length();
                 }
             }
         });
 
-        System.out.println(arr[0]);
+        // 중복되지 않는 단어만 출력
+        StringBuilder sb = new StringBuilder();
+        sb.append(arr[0]).append('\n');
 
-        // 중복되지 않는 경우만 출력
         for (int i = 1; i < N; i++) {
-            // 중복되지 않는 단어만 출력
             if (!arr[i].equals(arr[i - 1])) {
-                System.out.println(arr[i]);
+                sb.append(arr[i]).append('\n');
             }
         }
+        System.out.println(sb);
     }
 }
