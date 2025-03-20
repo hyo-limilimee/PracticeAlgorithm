@@ -4,7 +4,7 @@ class Solution
 {
     public int solution(String s)
     {
-        Deque<Character> stack = new ArrayDeque<>();
+        Stack<Character> stack = new Stack<>();
         
         for(char c : s.toCharArray()){
             if(!stack.isEmpty() && stack.peek() == c){
@@ -13,7 +13,6 @@ class Solution
                 stack.push(c);
             }
         }
-        
         return stack.isEmpty() ? 1 : 0;
     }
 }
