@@ -1,4 +1,5 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
@@ -6,27 +7,30 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
+        // 포켓몬 수
         int N = Integer.parseInt(st.nextToken());
+        // 문제 수
         int M = Integer.parseInt(st.nextToken());
 
-        HashMap<Integer, String> map1 = new HashMap<Integer, String>();
-        HashMap<String, Integer> map2 = new HashMap<String, Integer>();
+        Map<Integer, String> numToName = new HashMap<>();
+        Map<String, Integer> nameToNum = new HashMap<>();
 
         for (int i = 1; i <= N; i++) {
-            String str = br.readLine();
-            map1.put(i, str);
-            map2.put(str,i);
+            String name = br.readLine();
+            numToName.put(i, name);
+            nameToNum.put(name, i);
         }
 
-        for(int i = 0; i< M; i++){
-            String s = br.readLine();
-            if(49 <= s.charAt(0) && s.charAt(0) <= 57){
-                System.out.println(map1.get(Integer.parseInt(s)));
-            }
-            else{
-                System.out.println(map2.get(s));
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < M; i++) {
+            String input = br.readLine();
+            if (Character.isDigit(input.charAt(0))) {
+                sb.append(numToName.get(Integer.parseInt(input))).append("\n");
+            } else {
+                sb.append(nameToNum.get(input)).append("\n");
             }
         }
-
+        System.out.println(sb);
     }
 }
