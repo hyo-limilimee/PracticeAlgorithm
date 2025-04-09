@@ -7,7 +7,7 @@ public class Main {
     static int[] dx = {-1, 0, 1, 0}; // 상, 우, 하, 좌
     static int[] dy = {0, 1, 0, -1};
 
-    static int fishSize = 2;
+    static int sharkSize = 2;
     static int ate = 0;
     static int time = 0;
 
@@ -16,6 +16,7 @@ public class Main {
 
     static class Fish {
         int x, y, dist;
+
         Fish(int x, int y, int dist) {
             this.x = x;
             this.y = y;
@@ -32,6 +33,7 @@ public class Main {
             StringTokenizer st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
+
                 if (map[i][j] == 9) {
                     sharkX = i;
                     sharkY = j;
@@ -42,16 +44,17 @@ public class Main {
 
         while (true) {
             Fish fish = findFish(sharkX, sharkY);
+
             if (fish == null) break;
 
             time += fish.dist;
             sharkX = fish.x;
             sharkY = fish.y;
-            map[fish.x][fish.y] = 0;
+            map[sharkX][sharkY] = 0;
 
             ate++;
-            if (ate == fishSize) {
-                fishSize++;
+            if (ate == sharkSize) {
+                sharkSize++;
                 ate = 0;
             }
         }
@@ -59,36 +62,32 @@ public class Main {
         System.out.println(time);
     }
 
-    static Fish findFish(int sx, int sy) {
+    private static Fish findFish(int sx, int sy) {
+        List<Fish> candidates = new ArrayList<>();
         boolean[][] visited = new boolean[N][N];
         int[][] dist = new int[N][N];
-        Queue<int[]> q = new LinkedList<>();
-        List<Fish> candidates = new ArrayList<>();
+        Queue<int[]> queue = new LinkedList<>();
 
-        q.offer(new int[]{sx, sy});
-        visited[sx][sy] = true;
+        queue.offer(new int[]{sx, sy});
 
-        while (!q.isEmpty()) {
-            int[] cur = q.poll();
-            int x = cur[0];
-            int y = cur[1];
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
 
             for (int d = 0; d < 4; d++) {
-                int nx = x + dx[d];
-                int ny = y + dy[d];
+                int nx = current[0] + dx[d];
+                int ny = current[1] + dy[d];
 
-                if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
-                if (visited[nx][ny]) continue;
-                if (map[nx][ny] > fishSize) continue; // 지나갈 수 없는 곳
+                if (nx < 0 || nx >= N || ny < 0 || ny >= N) continue;
+                if (visited[nx][ny] || map[nx][ny] > sharkSize) continue;
 
                 visited[nx][ny] = true;
-                dist[nx][ny] = dist[x][y] + 1;
+                dist[nx][ny] = dist[current[0]][current[1]] + 1;
 
-                if (map[nx][ny] > 0 && map[nx][ny] < fishSize) {
+                if (map[nx][ny] > 0 && map[nx][ny] < sharkSize) {
                     candidates.add(new Fish(nx, ny, dist[nx][ny]));
                 }
 
-                q.offer(new int[]{nx, ny});
+                queue.offer(new int[]{nx, ny});
             }
         }
 
