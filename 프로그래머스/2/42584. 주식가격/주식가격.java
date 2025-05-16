@@ -2,9 +2,10 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] prices) {
-        List<Integer> ans = new ArrayList<>();
+        int n = prices.length;
+        int[] answer = new int[n];
         
-        for(int i = 0; i < prices.length; i++){
+        for(int i = 0; i < n; i++){
             int value = prices[i];
             int count = 0;
             
@@ -14,11 +15,8 @@ class Solution {
                     break;
                 }
             }            
-            ans.add(count);
+           answer[i] = count;
         }
-        
-        
-        int[] answer = ans.stream().mapToInt(Integer::intValue).toArray();
         
         return answer;
     }
