@@ -11,22 +11,10 @@ class Solution {
         }
     }
     
-    private boolean isAdjacent(String a, String b){
-        int diff = 0;
-        
-        for(int i = 0; i < a.length(); i++){
-            if(a.charAt(i) != b.charAt(i)){
-                diff++;
-                if(diff > 1) return false;
-            }
-        }
-        return diff == 1;
-    }
-    
     public int solution(String begin, String target, String[] words) {
-        boolean[] visited = new boolean[words.length];
         Queue<Word> queue = new LinkedList<>();
         queue.offer(new Word(begin, 0));
+        boolean[] visited = new boolean[words.length];
         
         while(!queue.isEmpty()){
             Word current = queue.poll();
@@ -43,5 +31,21 @@ class Solution {
             }
         }
         return 0;
+    }
+    
+    private boolean isAdjacent(String a, String b){
+        int diff = 0;
+        
+        for(int i = 0; i < a.length(); i++){
+            if(a.charAt(i) != b.charAt(i)){
+                diff++;
+            }
+            
+            if(diff > 1){
+                return false;
+            }
+        }
+        
+        return diff == 1;
     }
 }
