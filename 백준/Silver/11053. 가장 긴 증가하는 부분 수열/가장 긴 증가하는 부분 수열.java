@@ -1,6 +1,5 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -15,16 +14,18 @@ public class Main {
             dp[i] = 1;
         }
 
-        int maxLen = 1;
-
         for (int i = 1; i < N; i++) {
             for (int j = 0; j < i; j++) {
-                if (arr[j] < arr[i]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                if (arr[i] > arr[j]) {
+                    dp[i] = Math.max(dp[j] + 1, dp[i]);
                 }
             }
-            maxLen = Math.max(maxLen, dp[i]);
         }
-        System.out.println(maxLen);
+
+        int max = 0;
+        for(int i = 0; i < N; i++){
+            max = Math.max(max, dp[i]);
+        }
+        System.out.println(max);
     }
 }
