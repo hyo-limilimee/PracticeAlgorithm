@@ -27,8 +27,6 @@ public class Main {
         for (int i = 0; i < N; i++) {
             if (scores[i] > newScore) {
                 rank++;
-            } else {
-                break;
             }
         }
         System.out.println(rank);
