@@ -4,7 +4,6 @@ import java.util.*;
 public class Main {
     static int N, M, R;
     static List<Integer>[] graph;
-    static boolean[] visited;
     static int[] depth;
     static int[] order;
 
@@ -19,7 +18,6 @@ public class Main {
         for (int i = 1; i <= N; i++) {
             graph[i] = new ArrayList<>();
         }
-        visited = new boolean[N + 1];
         depth = new int[N + 1];
         order = new int[N + 1];
         Arrays.fill(depth, -1);
@@ -46,7 +44,6 @@ public class Main {
 
         queue.add(start);
         depth[start] = 0;
-        visited[start] = true;
 
         while (!queue.isEmpty()) {
             int current = queue.poll();
