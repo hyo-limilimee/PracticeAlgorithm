@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.*;
 
 public class Main {
     static int N, M;
@@ -11,26 +10,24 @@ public class Main {
         M = Integer.parseInt(br.readLine());
         S = br.readLine();
 
-        pattern = "";
-        for (int i = 0; i < 2 * N + 1; i++) {
-            if (i % 2 == 0) {
-                pattern += "I";
+        int cnt = 0;
+        int answer = 0;
+
+        for (int i = 1; i < M - 1; i++) {
+            if (S.charAt(i - 1) == 'I' && S.charAt(i) == 'O' && S.charAt(i + 1) == 'I') {
+                cnt++;
+
+                if (cnt == N) {
+                    answer++;
+                    cnt--;
+                }
+
+                i++;
             } else {
-                pattern += "O";
+                cnt = 0;
             }
         }
 
-        System.out.println(match());
-    }
-
-    private static int match() {
-        int cnt = 0;
-        int len = pattern.length();
-        for (int i = 0; i < M - len + 1; i++) {
-            String match = S.substring(i, i + len);
-
-            if (match.equals(pattern)) cnt++;
-        }
-        return cnt;
+        System.out.println(answer);
     }
 }
